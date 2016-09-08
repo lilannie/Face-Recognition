@@ -1,0 +1,17 @@
+{
+  "name": "test-server",
+  "version": "1.0.0",
+  "description": "a server for testing client photo capture/upload/recieve",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "jack rometty",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.5.1",
+    "express": "^4.14.0",
+    "http": "0.0.0"
+  }
+}

@@ -37,7 +37,13 @@ public class Image_transfer extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("Did a post request");
-		doGet(request, response);
+		
+		//code for decoding an image from byte format
+		
+		//call code for doing face recognition
+		
+		
+		doGet(request, response);	//not necessarily needed if we implement a separate response for post and get
 	}
 
 }
