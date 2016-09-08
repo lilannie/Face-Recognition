@@ -1,6 +1,10 @@
 package test1;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.net.URLEncoder;
+import java.util.Base64;
+import java.io.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,6 +43,20 @@ public class Image_transfer extends HttpServlet {
 		System.out.println("Did a post request");
 		
 		//code for decoding an image from byte format
+		String pic = request.getParameter("base64URL");
+		pic = URLEncoder.encode(pic, StandardCharsets.US_ASCII.toString());
+		
+		byte[] servdec = Base64.getEncoder().encode(pic.getBytes());
+		OutputStream out = null;
+		
+		String path = "D:\\faces\\img.png";
+		
+		try {
+		    out = new BufferedOutputStream(new FileOutputStream(path));
+		    out.write(servdec);
+		} finally {
+		    if (out != null) out.close();
+		}
 		
 		//call code for doing face recognition
 		
