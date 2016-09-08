@@ -13,11 +13,11 @@ app.set('view engine', 'ejs');
 app.post('/imgsave', function(req, res) {
 		console.log(req.body);
 		console.log("-- image --");
-		res.render('client2.html');
+		res.render('client.html');
 });
 
 app.get('/', function(req, res) {
-    res.render('client2.html');
+    res.render('client.html');
 });
 
 app.listen(8080, '127.0.0.1')
