@@ -3,7 +3,7 @@
 # Import the required modules
 import cv2, os
 import numpy as np
-from PIL import Image
+import Image
 
 # For face detection we will use the Haar Cascade provided by OpenCV.
 cascadePath = "haarcascade_frontalface_default.xml"
