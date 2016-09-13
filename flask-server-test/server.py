@@ -4,7 +4,7 @@ import base64
 app = Flask(__name__)
 
 @app.route('/imgsave', methods = ['POST'])
-def hii():
+def decode():
 	imgdata = request.form['base64URL']
 	print imgdata
 	fh = open("imageToSave.png", "wb")
