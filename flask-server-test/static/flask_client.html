@@ -64,11 +64,11 @@
 				// take the current state of the video stream and map it onto a canvas
 				context.drawImage(video, 0, 0, width, height);
 				// encode canvas to base64URL
-				//var dataURL = canvas.toDataURL("image/png");
+				var dataURL = canvas.toDataURL("image/png");
 				// encode canvas to byte array for image
-				var byte_array = context.getImageData(0, 0, width, height);
-				senddata(byte_array);
-				console.log(byte_array);
+				//var byte_array = context.getImageData(0, 0, width, height);
+				console.log(dataURL);
+				senddata(dataURL);
 			});
 
 			// ajax call to server
@@ -76,7 +76,7 @@
 				console.log("ajax sending");
 		    $.post("/imgsave",
 		    {
-		        "byte_array": data
+		        "base64URL": data
 		    },
 		    function(data, status){
 		        console.log("data sent, server returned: " + status);
