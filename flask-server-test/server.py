@@ -17,6 +17,3 @@ def decode():
 @app.route('/')
 def hello_world():
     return app.send_static_file('flask_client.html')
-
-
-
