@@ -5,8 +5,11 @@ var bodyParser = require('body-parser')
 app.set('views', __dirname + '/../');
 app.engine('html', require('ejs').renderFile);
 
-app.use(bodyParser.json({limit: '8mb'}));
-app.use(bodyParser.urlencoded({limit: '8mb', extended: true}));
+var jsonParser       = bodyParser.json({limit:1024*1024*20, type:'application/json'});
+var urlencodedParser = bodyParser.urlencoded({ extended:true,limit:1024*1024*20,type:'application/x-www-form-urlencoding' })
+
+app.use(jsonParser);
+app.use(urlencodedParser);
 
 app.set('view engine', 'ejs');
 
