@@ -1,0 +1,117 @@
+<html>
+	<head>
+		<title>selfie machine</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+	<body>
+		
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">Face Recognizer</a>
+	      <p class="navbar-text">by Memory Leaks</p>
+	    </div>
+	  </div>
+	</nav>
+
+	<div class="container-fluid col-md-12">
+		<div class="row">
+			<div class="text-center">
+				<a class="btn btn-default btn-lg" role="button" href="#" id="analyze">Analyze</a>
+			</div>	
+		</div>
+		<br>
+		<div class="row top-buffer">
+			<div class="text-center">
+				<video class="img-thumbnail" id="video" width="0" height="0" autoplay></video>
+				<canvas class="img-thumbnail" id="canvas" width="0" height="0"></canvas>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+				<p>We identified these people: insert info there will be lots of text here hopefully maybe i'm not quite sure but there should be room for a lot</p>
+			</div>
+		</div>
+		<script>
+			// declare global height and width variables
+			var width = 0;
+			var height = 0;
+
+			// initializes the width and height of video stream and canvas to properly site side by side
+			function init_video() {
+				var screen_width = window.innerWidth;
+				var screen_height = window.innerHeight;
+
+				console.log("box resized to fit:" + screen_width + "x"
+ + screen_height);				
+				width = screen_width/2;
+				height = width*.75;
+				$('canvas').hide();
+				$('video').attr('width', width);
+				$('video').attr('height', height);
+			};
+			// call function immediately but don't make it anonymous
+			init_video();
+
+			// reinitialize video stream on page resize
+			window.onresize = init_video;
+
+			// NEED THIS HACK FOR CROSS-BROWSER COMPATABILITY
+			navigator.getUserMedia = ( navigator.getUserMedia ||
+	                 navigator.webkitGetUserMedia ||
+	                 navigator.mozGetUserMedia ||
+	                 navigator.msGetUserMedia);
+
+			// ok setup done
+
+			// start video stream
+			var video = document.getElementById('video');
+	    navigator.getUserMedia({ video: true }, function(stream) {
+	        video.src = window.URL.createObjectURL(stream);
+	        // it runs fine without 'video.play()' but *every example* leaves it in so I'm not messing with it rn
+	        video.play();
+	    }, function() {
+	    	console.log("please use chrome (if u on chrome, u gotta restart 2 fix dis)");
+	    });
+
+	    // prep canvas & context
+			var canvas = document.getElementById('canvas');
+			var context = canvas.getContext('2d');
+
+			// button that initiates a capture/send to server
+			var analyzeButton = document.getElementById("analyze")
+
+			// create image from canvas and subsequently send img to server
+			analyzeButton.addEventListener("click", function() {
+				$('canvas').show();
+				$('canvas').attr('width', width);
+				$('canvas').attr('height', height);
+				// take the current state of the video stream and map it onto a canvas
+				context.drawImage(video, 0, 0, width, height);
+				// encode canvas to base64URL
+				var dataURL = canvas.toDataURL("image/png");
+				// encode canvas to byte array for image
+				//var byte_array = context.getImageData(0, 0, width, height);
+				console.log(dataURL);
+				senddata(dataURL);
+			});
+
+			// ajax call to server
+			function senddata(data) {
+				console.log("ajax sending");
+		    $.post("/imgsave",
+		    {
+		        "base64URL": data
+		    },
+		    function(data, status){
+		        console.log("data sent, server returned: " + status);
+		    });
+		  };
+
+		</script>
+
+	</body>
+</html>
